@@ -1,7 +1,7 @@
 # interaction.py
 from tasks import add_task, list_tasks, complete_task
 from appointments import schedule_appointment, list_appointments, cancel_appointment
-from calls import answer_call, transfer_call
+from calls import answer_call, transfer_call, make_real_call
 from insurance import verify_insurance
 from inquiries import process_inquiry
 from logger import log_info, log_error
@@ -18,6 +18,7 @@ def run_receptionist():
     print("  - 'cancel appointment <appointment number>' to cancel an appointment")
     print("  - 'answer call' to simulate answering an incoming call")
     print("  - 'transfer call <department>' to transfer a call")
+    print("  - 'call real <phone number>' to make a real call via external API")
     print("  - 'verify insurance <insurance number>' to verify insurance information")
     print("  - 'inquire <message>' to process an online inquiry")
     
@@ -83,6 +84,11 @@ def run_receptionist():
                 response = transfer_call(department)
                 print(response)
                 log_info(f"Transferred call to: {department}")
+            elif lower_input.startswith("call real "):
+                phone_number = user_input[len("call real "):].strip()
+                response = make_real_call(phone_number)
+                print(response)
+                log_info(f"Made real call to: {phone_number}")
             elif lower_input.startswith("verify insurance "):
                 insurance_number = user_input[len("verify insurance "):].strip()
                 response = verify_insurance(insurance_number)
