@@ -1,10 +1,12 @@
 # appointments.py
+from storage import load_appointments, save_appointments
 
-appointments = []
+appointments = load_appointments()
 
 def schedule_appointment(details):
     """Schedule a new appointment with the provided details."""
     appointments.append({"details": details, "status": "Scheduled"})
+    save_appointments(appointments)
     return f"Appointment scheduled: {details}"
 
 def list_appointments():
@@ -20,6 +22,7 @@ def cancel_appointment(appointment_number):
     """Cancel a scheduled appointment given its number."""
     if 0 < appointment_number <= len(appointments):
         canceled = appointments.pop(appointment_number - 1)
+        save_appointments(appointments)
         return f"Appointment canceled: {canceled['details']}"
     else:
         return "Invalid appointment number."
